@@ -1,0 +1,15 @@
+# Ignore build directories
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/*.exe
+/*.obj
+/*.pdb
+/*.log
+
+# VSCode settings (optional)
+/.vscode/
+
+# OS-specific files
+Thumbs.db
+.DS_Store
