@@ -38,12 +38,13 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
 
     - name: Configure CMake
+      shell: ${{ matrix.os == 'windows-latest' && 'pwsh' || 'bash' }}
       run: |
-        cmake -S . -B build \
-          -G "${{ matrix.generator }}" \
-          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        if ($env:RUNNER_OS -eq 'Windows') {
+          cmake -S . -B build -G "${{ matrix.generator }}" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        } else {
+          cmake -S . -B build -G "${{ matrix.generator }}" -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        }
 
     - name: Build
       run: cmake --build build --config ${{ matrix.build_type }}
